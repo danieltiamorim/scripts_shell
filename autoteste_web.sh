@@ -9,7 +9,6 @@ apt update
 apt install net-tools whois dirb gobuster nikto whatweb nmap
 clear
 
-
 PORTS=80,8080,443
 
 # Log do Programa
@@ -90,7 +89,6 @@ nmap -sV -O --script vuln -p "$PORTS" "$host_alvo" -oA pentest_nmap_vuln --min-h
 #Tem causado problema na finalização de execução do codigo.
 #cat pentest_nmap_vuln.gnmap | grep open | cut -d " " -f2 > pentest_nmap_ips_alvo.txt
 #cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=6; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
-
 
 # Fase 8: Whatweb
 echo ">>"  >> "$LOG_FILE"
