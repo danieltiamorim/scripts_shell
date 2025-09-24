@@ -28,3 +28,7 @@ Esse script automatiza o trabalho do pentester fazendo em poucos minutos uma var
 O arquivo de log, pentest_log.txt ajuda o pentester a não perder o fio da documentação necessária para o próximo passo, a exploração de vulnerabilidades, e já adiantando, algumas ferramentas acima já fazem esse trabalho, como o Dirb, Whatweb e o Nmap.
 
 Algumas ferramentas também terão seus próprios arquivos de Documentação, entregando os logs em formatos variados para que possam ser utilizados em outras ferramentas como o caso do NMAP e o arquivo de log .gnmap e o .xml.
+
+
+Mais detalhes sobre o script estão no link:
+https://deepwiki.com/danieltiamorim/scripts_shell/2-autoteste_web.sh-script
