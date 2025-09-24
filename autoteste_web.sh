@@ -45,15 +45,19 @@ echo ">>"  >> "$LOG_FILE"
 nslookup -type=MX  $host_alvo  >>  "$LOG_FILE" 
 
 echo ">>"  >> "$LOG_FILE"
+echo ">> Consulta Nslookup A..."   >>  "$LOG_FILE" 
+echo ">>"  >> "$LOG_FILE"
+nslookup -type=A  $host_alvo >>  "$LOG_FILE"
+
+echo ">>"  >> "$LOG_FILE"
 echo ">> Consulta Nslookup AAAA..."   >>  "$LOG_FILE" 
 echo ">>"  >> "$LOG_FILE"
-
 nslookup -type=AAAA  $host_alvo >>  "$LOG_FILE"
 
 echo ">>"  >> "$LOG_FILE"
 echo ">> Consulta Nslookup CNAME..."   >>  "$LOG_FILE" 
 echo ">>"  >> "$LOG_FILE"
-nslookup -type=AAAA -type=CNAME $host_alvo  >>  "$LOG_FILE"
+nslookup -type=CNAME -type=CNAME $host_alvo  >>  "$LOG_FILE"
 
 # Fase 4: Dirb 
 echo ">>"  >> "$LOG_FILE"
