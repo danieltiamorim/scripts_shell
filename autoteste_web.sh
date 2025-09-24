@@ -85,8 +85,11 @@ echo ">>"  >> "$LOG_FILE"
 echo ">> Fase 7: Nmap - Descobrindo Vulnerabilidades" 
 echo ">> Fase 7: Nmap - Descobrindo Vulnerabilidades" >> "$LOG_FILE"
 nmap -sV -O --script vuln -p "$PORTS" "$host_alvo" -oA pentest_nmap_vuln --min-hostgroup 10000 --min-rate 10000  >> "$LOG_FILE"
-cat pentest_nmap_vuln.gnmap | grep open | cut -d " " -f2 > pentest_nmap_ips_alvo.txt
-cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=6; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
+
+#Isso daqui eu ainda vou corrigir
+#Tem causado problema na finalização de execução do codigo.
+#cat pentest_nmap_vuln.gnmap | grep open | cut -d " " -f2 > pentest_nmap_ips_alvo.txt
+#cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=6; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
 
 
 # Fase 8: Whatweb
