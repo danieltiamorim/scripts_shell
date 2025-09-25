@@ -18,8 +18,9 @@ Script de Automação em Pentest WEB.
   - Nslookup
   - Dirb
   - Gobuster
-  - Whatweb
+  - Nikto
   - Nmap
+  - Whatweb
 
 Cada um com sua função específica.
 
