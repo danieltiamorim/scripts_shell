@@ -121,7 +121,7 @@ echo "" | tee -a $LOG_FILE
 echo "✅ Finalizando..."  | tee -a $LOG_FILE
 echo "Fazendo a sanitização dos Dados Coletados pelo NMAP... Aguarde"| tee -a $LOG_FILE
 cat pentest_nmap_vuln.gnmap | grep open | cut -d " " -f2 > pentest_nmap_ips_alvo.txt
-cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=6; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
+cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=5; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
 
 echo "Cheque os arquivos - pentest_ip_open_ports.txt e pentest_nmap_ips_alvo.txt"
 
