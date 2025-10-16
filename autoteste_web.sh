@@ -1,4 +1,5 @@
 #!/bin/bash
+#Autoteste - Versão 3.0
 #Feito Por Daniel Amorim
 #Script de automação de escaneamento e pentest em Sites
 #Várias ferramentas de uma só vez.
@@ -13,9 +14,17 @@ clear
 DEFAULT_PORTS="80,8080,443"
 
 # Log do Script
-LOG_FILE=pentest_log.txt
+LOG_FILE=01_pentest_log.txt
 # Limpa o arquivo de log anterior ou cria um novo
 > $LOG_FILE
+> pentest_dirb.txt
+> pentest_dirb_ssl.txt
+> pentest_gobuster.txt
+> pentest_ip_open_ports.txt
+> pentest_nikto.txt
+> pentest_whatweb.txt
+> pentest_nmap_ips_alvo.txt
+> pentest_nmap_vuln.gnmap 
 
 echo "Script - AutoTeste_WEB, por Daniel Amorim - versão 2.0 - 09/2025" | tee -a $LOG_FILE
 echo "Digite o host alvo, Exemplo = www.site.com" | tee -a $LOG_FILE
@@ -64,32 +73,19 @@ echo "✅ Fase 2: WHOIS..." | tee -a $LOG_FILE
 whois $host_alvo  >> $LOG_FILE 
 echo "" | tee -a $LOG_FILE
 
-# Fase 3: Nslookup 
+# Fase 3: Host 
 echo ">>"  >> $LOG_FILE 
-echo "✅ Fase 3: Nslookup..."   >> $LOG_FILE 
+echo "✅ Fase 3: Host - Consulta de IPs através do DNS - Servidores de Email - IPv6..."   >> $LOG_FILE 
 echo ">>"  >> $LOG_FILE 
-echo ">> Consulta Nslookup MX..."   >> $LOG_FILE 
+echo ">> Consulta..."   >> $LOG_FILE 
 echo ">>"   >> $LOG_FILE 
-nslookup -type=MX  $host_alvo  >> $LOG_FILE 
+host $host_alvo  > $LOG_FILE 
 
 echo ">>"   >> $LOG_FILE 
-echo ">> Consulta Nslookup A..."   >> $LOG_FILE 
-echo ">>"  >> $LOG_FILE 
-nslookup -type=A  $host_alvo >>  $LOG_FILE
-
-echo ">>"   >> $LOG_FILE 
-echo ">> Consulta Nslookup AAAA..."   >> $LOG_FILE 
-echo ">>"   >> $LOG_FILE 
-nslookup -type=AAAA  $host_alvo >>  $LOG_FILE
-
-echo ">>"   >> $LOG_FILE 
-echo ">> Consulta Nslookup CNAME..."   >> $LOG_FILE 
-echo ">>"  >> $LOG_FILE 
-nslookup -type=CNAME -type=CNAME $host_alvo  >>  $LOG_FILE
 
 # Fase 4: Dirb 
 echo ">>"  | tee -a $LOG_FILE
-echo "✅ Fase 4: Dirb - Modo de Enumeração de DNS..."  | tee -a $LOG_FILE
+echo "✅ Fase 4: Dirb - Enumeração de Diretórios e Páginas.."  | tee -a $LOG_FILE
 echo ">>"  | tee -a $LOG_FILE
 echo ">> Dirb HTTP..."   >> $LOG_FILE 
 dirb http://$host_alvo -S -z 100 -o pentest_dirb.txt -t 50 >> $LOG_FILE 
@@ -99,7 +95,7 @@ dirb https://$host_alvo -S -z 100 -o pentest_dirb_ssl.txt -t 50 >> $LOG_FILE
 
 # Fase 5: Gobuster 
 echo ">>"  | tee -a $LOG_FILE
-echo "✅ Fase 5: Gobuster..." | tee -a $LOG_FILE
+echo "✅ Fase 5: Gobuster - Modo de Enumeração de DNS..." | tee -a $LOG_FILE
 gobuster -t 30 -o pentest_gobuster.txt  dns -d "$host_alvo" -w /usr/share/dirb/wordlists/common.txt >> $LOG_FILE 
 
 # Fase 6: Nikto
@@ -107,7 +103,7 @@ echo ">>"  | tee -a $LOG_FILE
 echo "✅ Fase 6: Nikto" | tee -a $LOG_FILE
 nikto -o pentest_nikto.txt -p "$PORTS" -h "$host_alvo" >> $LOG_FILE 
 
-# Fase 7: nmap 
+# Fase 7: Nmap 
 echo ">>"  | tee -a $LOG_FILE
 echo "✅ Fase 7: Nmap - Descobrindo Vulnerabilidades" | tee -a $LOG_FILE
 nmap -sV -O --script vuln -p "$PORTS" "$host_alvo" -oA pentest_nmap_vuln --min-hostgroup 10000 --min-rate 10000  >> $LOG_FILE 
@@ -115,13 +111,13 @@ nmap -sV -O --script vuln -p "$PORTS" "$host_alvo" -oA pentest_nmap_vuln --min-h
 # Fase 8: Whatweb
 echo ">>"  | tee -a $LOG_FILE
 echo "✅ Fase 8: WhatWeb" | tee -a $LOG_FILE
-whatweb -a 3 $host_alvo >> $LOG_FILE 
+whatweb -a 4 $host_alvo -v --log-verbose=pentest_whatweb.txt >> $LOG_FILE 
 
 echo "" | tee -a $LOG_FILE
 echo "✅ Finalizando..."  | tee -a $LOG_FILE
 echo "Fazendo a sanitização dos Dados Coletados pelo NMAP... Aguarde"| tee -a $LOG_FILE
 cat pentest_nmap_vuln.gnmap | grep open | cut -d " " -f2 > pentest_nmap_ips_alvo.txt
-cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=5; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
+cat pentest_nmap_vuln.gnmap | grep open | awk '{ip=$2; ports=" "; for (i=6; i<=NF; i++) {if ($i ~ /open/) {split($i, a, "/"); ports=ports a[1]","}} print ip, ports}' | sed 's/,$//' > pentest_ip_open_ports.txt
 
 echo "Cheque os arquivos - pentest_ip_open_ports.txt e pentest_nmap_ips_alvo.txt"
 
@@ -131,4 +127,3 @@ echo ">>"  | tee -a $LOG_FILE
 echo "--- Data/Hora DA FINALIZAÇÃO DO ESCANEAMENTO: $(date) ---"  | tee -a $LOG_FILE
 echo ">> FINALIZADO - VERIFIQUE O ARQUIVO DE LOG $LOG_FILE" 
 echo ">> FINALIZADO" | tee -a $LOG_FILE
-
