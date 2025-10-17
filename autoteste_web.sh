@@ -7,7 +7,7 @@
 
 #Atualiza e instala os pacotes necessários e limpa a tela
 apt update
-apt install net-tools whois dirb gobuster nikto whatweb nmap
+apt install net-tools whois host dirb gobuster nikto whatweb nmap
 clear
 
 # Valor padrão inicial para o caso do usuário não digitar nada.
@@ -26,7 +26,7 @@ LOG_FILE=01_pentest_log.txt
 > pentest_nmap_ips_alvo.txt
 > pentest_nmap_vuln.gnmap 
 
-echo "Script - AutoTeste_WEB, por Daniel Amorim - versão 2.0 - 09/2025" | tee -a $LOG_FILE
+echo "Script - AutoTeste_WEB, por Daniel Amorim - versão 3.0 - 10/2025" | tee -a $LOG_FILE
 echo "Digite o host alvo, Exemplo = www.site.com" | tee -a $LOG_FILE
 read host_alvo
 
