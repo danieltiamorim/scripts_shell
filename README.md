@@ -15,7 +15,7 @@ Script de Automação em Pentest WEB.
   Um combo com 8 Ferramentas de Pentest:
   - Ping 
   - Whois
-  - Nslookup
+  - Host
   - Dirb
   - Gobuster
   - Nikto
