@@ -79,7 +79,7 @@ echo "✅ Fase 3: Host - Consulta de IPs através do DNS - Servidores de Email -
 echo ">>"  >> $LOG_FILE 
 echo ">> Consulta..."   >> $LOG_FILE 
 echo ">>"   >> $LOG_FILE 
-host $host_alvo  > $LOG_FILE 
+host $host_alvo  >> $LOG_FILE 
 
 echo ">>"   >> $LOG_FILE 
 
